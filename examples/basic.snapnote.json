@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "0.1.0",
+  "kind": "snapnote",
+  "id": "92a5e77a-212e-4152-842f-e9223fc34f5a",
+  "createdAt": "2026-06-04T01:40:38.849845Z",
+  "source": {
+    "type": "screenshot",
+    "width": 361,
+    "height": 218,
+    "image": {
+      "mimeType": "image/png",
+      "encoding": "base64",
+      "data": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII="
+    }
+  },
+  "target": {
+    "type": "rect",
+    "x": 301,
+    "y": 9,
+    "width": 38,
+    "height": 36,
+    "coordinateSpace": "sourceImagePixels"
+  },
+  "note": {
+    "text": "I'd like to change this icon to be a method for switching between sorting asc and desc, like a down arrow and up arrow.",
+    "inputMode": "typed",
+    "intent": "change-request"
+  }
+}

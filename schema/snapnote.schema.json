@@ -1,0 +1,473 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:snapnote-spec:schema:snapnote:v0.1.0",
+  "title": "SnapNote Packet",
+  "description": "SnapNote v0.1.0 packet for screenshot-bound software feedback and agent-ready UI change requests.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "kind",
+    "id",
+    "createdAt",
+    "source",
+    "target",
+    "note"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0"
+    },
+    "kind": {
+      "type": "string",
+      "const": "snapnote"
+    },
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "target": {
+      "$ref": "#/$defs/target"
+    },
+    "note": {
+      "$ref": "#/$defs/note"
+    },
+    "context": {
+      "$ref": "#/$defs/context"
+    },
+    "agent": {
+      "$ref": "#/$defs/agent"
+    },
+    "issue": {
+      "$ref": "#/$defs/issue"
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": [
+        "type",
+        "width",
+        "height"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "screenshot"
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "image": {
+          "$ref": "#/$defs/image"
+        },
+        "imageRef": {
+          "$ref": "#/$defs/imageRef"
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "required": [
+        "mimeType",
+        "encoding",
+        "data"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "mimeType": {
+          "type": "string",
+          "examples": [
+            "image/png"
+          ]
+        },
+        "encoding": {
+          "type": "string",
+          "const": "base64"
+        },
+        "data": {
+          "type": "string",
+          "contentEncoding": "base64"
+        }
+      }
+    },
+    "imageRef": {
+      "type": "object",
+      "required": [
+        "type",
+        "uri"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "file",
+            "url"
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mimeType": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "type",
+        "x",
+        "y",
+        "width",
+        "height",
+        "coordinateSpace"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "rect"
+        },
+        "x": {
+          "type": "number",
+          "minimum": 0
+        },
+        "y": {
+          "type": "number",
+          "minimum": 0
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "coordinateSpace": {
+          "type": "string",
+          "const": "sourceImagePixels"
+        }
+      }
+    },
+    "note": {
+      "type": "object",
+      "required": [
+        "text",
+        "inputMode"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "inputMode": {
+          "type": "string",
+          "enum": [
+            "typed",
+            "voice",
+            "transcribed"
+          ]
+        },
+        "intent": {
+          "type": "string",
+          "enum": [
+            "bug",
+            "change-request",
+            "feature-request",
+            "question",
+            "polish"
+          ]
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "app": {
+          "$ref": "#/$defs/appContext"
+        },
+        "page": {
+          "$ref": "#/$defs/pageContext"
+        },
+        "viewport": {
+          "$ref": "#/$defs/viewport"
+        },
+        "selectedElement": {
+          "$ref": "#/$defs/selectedElement"
+        },
+        "consoleErrors": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/$defs/consoleError"
+              }
+            ]
+          }
+        },
+        "networkHints": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/$defs/networkHint"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "appContext": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "environment": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "pageContext": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "route": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "viewport": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "devicePixelRatio": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "scrollX": {
+          "type": "number"
+        },
+        "scrollY": {
+          "type": "number"
+        }
+      }
+    },
+    "selectedElement": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "tag": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "text": {
+          "type": "string"
+        },
+        "ariaLabel": {
+          "type": "string"
+        },
+        "domPath": {
+          "type": "string"
+        },
+        "boundingClientRect": {
+          "$ref": "#/$defs/domRect"
+        }
+      }
+    },
+    "domRect": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "top": {
+          "type": "number"
+        },
+        "right": {
+          "type": "number"
+        },
+        "bottom": {
+          "type": "number"
+        },
+        "left": {
+          "type": "number"
+        }
+      }
+    },
+    "consoleError": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "line": {
+          "type": "number"
+        },
+        "column": {
+          "type": "number"
+        },
+        "stack": {
+          "type": "string"
+        }
+      }
+    },
+    "networkHint": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "status": {
+          "type": "number"
+        },
+        "statusText": {
+          "type": "string"
+        },
+        "error": {
+          "type": "string"
+        },
+        "durationMs": {
+          "type": "number"
+        }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "in-progress",
+            "done",
+            "wont-do"
+          ]
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "instructions": {
+          "type": "string"
+        }
+      }
+    },
+    "issue": {
+      "type": "object",
+      "required": [
+        "provider"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": [
+            "github",
+            "linear",
+            "local"
+          ]
+        },
+        "externalId": {
+          "type": "string"
+        },
+        "externalUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

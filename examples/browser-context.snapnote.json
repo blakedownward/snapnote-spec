@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "0.1.0",
+  "kind": "snapnote",
+  "id": "f2a9a31e-4f44-4ec5-9ed2-2c0fd8e68de6",
+  "createdAt": "2026-06-04T02:15:12.120Z",
+  "source": {
+    "type": "screenshot",
+    "width": 1440,
+    "height": 900,
+    "imageRef": {
+      "type": "file",
+      "uri": ".snapnotes/images/sort-toggle-2026-06-04.png",
+      "mimeType": "image/png"
+    }
+  },
+  "target": {
+    "type": "rect",
+    "x": 1186,
+    "y": 96,
+    "width": 44,
+    "height": 40,
+    "coordinateSpace": "sourceImagePixels"
+  },
+  "note": {
+    "text": "Use this toolbar button as the sort direction toggle. It should show an up arrow for ascending and a down arrow for descending.",
+    "inputMode": "typed",
+    "intent": "change-request"
+  },
+  "context": {
+    "app": {
+      "name": "SnapNote Demo",
+      "environment": "development",
+      "version": "0.3.7"
+    },
+    "page": {
+      "url": "https://app.example.test/projects/alpha/notes?sort=createdAt",
+      "route": "/projects/:projectId/notes",
+      "title": "Project Notes"
+    },
+    "viewport": {
+      "width": 1440,
+      "height": 900,
+      "devicePixelRatio": 1,
+      "scrollX": 0,
+      "scrollY": 0
+    },
+    "selectedElement": {
+      "tag": "button",
+      "id": "sort-direction-toggle",
+      "classes": [
+        "toolbar-button",
+        "sort-toggle"
+      ],
+      "text": "",
+      "ariaLabel": "Sort descending",
+      "domPath": "main section.toolbar button#sort-direction-toggle",
+      "boundingClientRect": {
+        "x": 1186,
+        "y": 96,
+        "width": 44,
+        "height": 40,
+        "top": 96,
+        "right": 1230,
+        "bottom": 136,
+        "left": 1186
+      }
+    },
+    "consoleErrors": [
+      {
+        "message": "Failed to load optional analytics script.",
+        "source": "https://cdn.example.test/analytics.js",
+        "line": 12,
+        "column": 8
+      }
+    ],
+    "networkHints": [
+      {
+        "url": "https://api.example.test/projects/alpha/notes?sort=createdAt",
+        "method": "GET",
+        "status": 200,
+        "durationMs": 84
+      }
+    ]
+  },
+  "agent": {
+    "status": "open",
+    "priority": "medium",
+    "instructions": "Keep the existing toolbar spacing and button size."
+  },
+  "issue": {
+    "provider": "github",
+    "externalId": "42",
+    "externalUrl": "https://github.com/example/snapnote-demo/issues/42",
+    "branch": "snapnote/sort-direction-toggle",
+    "labels": [
+      "ui",
+      "snapnote"
+    ]
+  }
+}

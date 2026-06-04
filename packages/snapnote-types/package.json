@@ -1,0 +1,22 @@
+{
+  "name": "@snapnote/spec-types",
+  "version": "0.1.0",
+  "description": "TypeScript types for the SnapNote v0.1.0 packet format.",
+  "private": true,
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}
