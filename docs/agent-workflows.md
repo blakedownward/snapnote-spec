@@ -23,6 +23,8 @@ For this workflow, use `source.imageRef` to point at the local screenshot file.
 
 An agent can read the packet, inspect the target region, use the note as the request, and use `context` to find the relevant route, element, or error.
 
+Screenshot plus target rectangle is useful, but the strongest packets also include human intent, route or page context, selected element metadata, and environment details. These fields remain optional in v0.1.0.
+
 ## GitHub Issue Export
 
 A SnapNote packet can be exported to a GitHub issue.
@@ -66,9 +68,12 @@ A browser extension can create a packet by collecting:
 - screenshot dimensions and image bytes
 - selected rectangle in screenshot pixels
 - note text
-- current URL, route, and title
-- viewport size
-- selected DOM element metadata
+- `note.intent` when the request can be classified
+- current route when known
+- current URL when safe
+- page title when available
+- viewport size for layout or responsive issues
+- selected DOM element metadata when the clicked or selected element can be identified
 - recent console errors
 - relevant network hints
 
@@ -84,7 +89,9 @@ Useful widget behavior:
 - let the user drag a target rectangle
 - accept typed, voice, or transcribed notes
 - include app environment and version
-- include route and selected element metadata when available
+- include route or screen context when known
+- include selected element metadata when available
+- classify `note.intent` when possible
 - save locally, send to an API, or export as a file
 
 This repository does not provide the widget. It only defines the packet format that a widget could emit.

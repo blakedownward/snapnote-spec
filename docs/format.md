@@ -111,7 +111,22 @@ Fields:
 | --- | --- | --- |
 | `text` | yes | Human note text. |
 | `inputMode` | yes | `typed`, `voice`, or `transcribed`. |
-| `intent` | no | `bug`, `change-request`, `feature-request`, `question`, or `polish`. |
+| `intent` | no | Optional request classifier. The v0.1.0 schema accepts `bug`, `change-request`, `feature-request`, `question`, or `polish`. |
+
+When the producer can classify the request, `note.intent` SHOULD be included.
+
+Recommended intent values for producer classification:
+
+- `visual-change`
+- `behavior-change`
+- `copy-change`
+- `layout-issue`
+- `bug`
+- `question`
+- `polish`
+- `unknown`
+
+This guidance does not make `note.intent` required and does not change the v0.1.0 schema. Strict v0.1.0 packets should still use one of the schema values until a future revision widens `note.intent`.
 
 ## Context
 
@@ -119,20 +134,24 @@ The context object is intentionally flexible. It can carry browser, app, page, D
 
 Recommended fields:
 
-| Field | Description |
-| --- | --- |
-| `app.name` | Application name. |
-| `app.environment` | Environment name, such as `development`, `staging`, or `production`. |
-| `app.version` | App version or build identifier. |
-| `page.url` | Full browser URL. |
-| `page.route` | App route if different from the URL. |
-| `page.title` | Page title. |
-| `viewport.width` | Viewport width in CSS pixels. |
-| `viewport.height` | Viewport height in CSS pixels. |
-| `viewport.devicePixelRatio` | Device pixel ratio. |
-| `selectedElement` | Metadata for the DOM element nearest the target. |
-| `consoleErrors` | Recent console errors. |
-| `networkHints` | Relevant request or response hints. |
+| Field | Guidance | Description |
+| --- | --- | --- |
+| `app.name` | MAY | Application name. |
+| `app.environment` | SHOULD | Environment name, such as `development`, `staging`, or `production`. |
+| `app.version` | SHOULD | App version or build identifier. |
+| `page.route` | SHOULD when known | App route, such as `/projects/:projectId/notes`. |
+| `page.url` | SHOULD for browser captures when safe | Full browser URL. Avoid secrets, tokens, private IDs, or sensitive query parameters. |
+| `page.title` | MAY | Page title. |
+| `viewport.width` | SHOULD for layout or responsive issues | Viewport width in CSS pixels. |
+| `viewport.height` | SHOULD for layout or responsive issues | Viewport height in CSS pixels. |
+| `viewport.devicePixelRatio` | SHOULD for layout or responsive issues | Device pixel ratio. |
+| `selectedElement` | SHOULD when available | Metadata for the clicked or selected DOM element. |
+| `consoleErrors` | MAY | Recent console errors. |
+| `networkHints` | MAY | Relevant request or response hints. |
+
+`context.page.route` is useful even outside browser captures when the producer knows the route or screen identifier. Browser producers SHOULD also include `context.page.url` when it is safe to share. `context.viewport` SHOULD be included for layout, spacing, clipping, overflow, breakpoint, or responsive issues.
+
+`context.selectedElement` SHOULD be included when the producer can identify the clicked or selected DOM element. Producers should avoid collecting sensitive page content unless the user explicitly confirms the capture.
 
 `selectedElement` can include:
 
@@ -154,6 +173,8 @@ Recommended fields:
 - `right`
 - `bottom`
 - `left`
+
+Screenshot plus `target` gives agents a useful visual anchor. The strongest SnapNote packets combine human intent, visual target, route or page context, selected element metadata, and environment details.
 
 ## Agent Metadata
 
